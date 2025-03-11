@@ -1,18 +1,21 @@
 const express = require('express');
-const path = require('path'); 
-const booksRoutes = require('./route/booksRoutes'); 
+const booksRouter = require('./route/booksRoutes'); // ✅ Correct route import
 
 const app = express();
+const PORT = 3000;
 
+// Middleware to parse JSON
+app.use(express.json());
 
-app.use('/books', booksRoutes);
+// Use the books router
+app.use('/books', booksRouter);
 
+// Root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.send("Welcome to the Books API! Use /books to get all books and /books/:id for details.");
 });
 
-
-const PORT = process.env.PORT || 3000;
+// Start the server
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
